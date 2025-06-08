@@ -197,14 +197,26 @@ Execute each simulation script using Node.js from the `e:\blockchain` directory:
         Final Hash: 000565b3e8c340a563b50a27321c83265a118996cc7bc428ab5330a3996f83b4
         Verification: Does hash start with 3 zeros? true
         ```
+    *   **Nonce Code Explanation (`mining_simulation.js`):**
+        The core of the mining simulation lies in the `mineBlock` function. Here's a breakdown:
+        *   **`nonce`**: This is a number that miners change repeatedly. In `mining_simulation.js`, it starts at `0` and is incremented in each attempt (`nonce++`).
+        *   **`blockData`**: This is the data that needs to be included in the block. For the simulation, it's a simple string like "My first block data!".
+        *   **`difficulty`**: This determines how hard it is to find a valid hash. It's represented by the number of leading zeros required in the hash (e.g., a difficulty of `3` means the hash must start with `"000"`). The `targetPrefix` variable (`Array(difficulty + 1).join("0")`) creates this target string.
+        *   **Mining Loop (`while (true)`)**: 
+            1.  The `input` for hashing is created by concatenating the `blockData` with the current `nonce`.
+            2.  The `calculateHash(input)` function computes the SHA-256 hash of this combined string.
+            3.  The script checks if this `hash.substring(0, difficulty)` matches the `targetPrefix`.
+            4.  If it matches, the correct `nonce` is found, and the loop breaks.
+            5.  If not, the `nonce` is incremented, and the process repeats.
+        This iterative process of changing the `nonce` and recalculating the hash until the difficulty condition is met is the essence of Proof-of-Work mining.
 
-3.  **Consensus Mechanism Simulation (`consensus_demo.js`)**
+3.  **Consensus Mechanism Demo (`consensus_demo.js`)**
 
     ```bash
     node consensus_demo.js
     ```
 
-    *   **What to Expect**: The output will detail the selection process for a validator or delegate under PoW, PoS, and DPoS rules. Each section includes an explanation of the underlying logic. Due to the use of random values for power, stake, and votes, the selected entities may differ on each run.
+    *   **What to Expect**: The script demonstrates how different consensus mechanisms select validators or block producers. It will output the selected entity for PoW, PoS, and DPoS based on simulated parameters like computational power, stake amount, or votes.
         **Example Output:**
         ```text
         --- Consensus Mechanism Simulation Results ---
@@ -238,26 +250,6 @@ Execute each simulation script using Node.js from the `e:\blockchain` directory:
         --- End of Simulation ---
         ```
 
-## Learning Objectives
-
-By running these simulations, you can gain a practical understanding of:
-
-*   How blocks are created and linked using cryptographic hashes.
-*   The concept of immutability in blockchains and how tampering is detected.
-*   The role of the nonce and difficulty in Proof-of-Work mining.
-*   The basic decision-making logic behind PoW, PoS, and DPoS consensus mechanisms.
-
-## Customization
-
-Feel free to modify the parameters within the scripts, such as:
-
-*   **Difficulty Levels**: Adjust the `difficulty` variable in `blockchain_simulation.js` and `mining_simulation.js` to see how it impacts mining time and the number of nonce attempts.
-*   **Transaction Data**: Change the data within blocks in `blockchain_simulation.js`.
-*   **Validator Attributes**: Modify the `power`, `stake`, or `votingPower` values in `consensus_demo.js` to observe different selection outcomes.
-
-Enjoy exploring these blockchain fundamentals!
-
----
 
 ## Theoretical Part: Answers
 
