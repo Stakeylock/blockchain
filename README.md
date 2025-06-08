@@ -249,11 +249,26 @@ Execute each simulation script using Node.js from the `e:\blockchain` directory:
 
         --- End of Simulation ---
         ```
+    *   **Consensus Code Explanation (`consensus_demo.js`):**
+        This script simulates three consensus mechanisms:
+        *   **Proof of Work (PoW) - `simulatePoW` function**:
+            *   A `miner` object is defined with a `power` attribute, simulating computational hashing power.
+            *   The simulation simply selects this predefined `miner` as the validator. In a real PoW system, multiple miners would compete, and the one solving a cryptographic puzzle first (similar to `mining_simulation.js`) would be chosen.
+            *   **Output**: Shows the selected miner's ID and their power, explaining that PoW relies on computational effort.
+        *   **Proof of Stake (PoS) - `simulatePoS` function**:
+            *   An array of `stakers` is created, each with an `id` and a `stake` amount (simulating cryptocurrency held as collateral).
+            *   The `simulatePoS` function iterates through the `stakers` and selects the one with the `highestStake`.
+            *   **Output**: Displays all stakers with their stakes and identifies the selected validator based on the highest stake, explaining that PoS prioritizes the amount of currency staked.
+        *   **Delegated Proof of Stake (DPoS) - `simulateDPoS` function**:
+            *   `delegates` (candidates) and `voters` (with `votingPower`) are defined.
+            *   Voters randomly distribute their `votingPower` among the `delegates`.
+            *   The `simulateDPoS` function calculates the total votes for each delegate. It then creates a `weightedDelegates` list where each delegate appears a number of times proportional to their votes. A delegate is then randomly selected from this weighted list.
+            *   **Output**: Lists delegates and their votes, then shows the randomly selected delegate, explaining that DPoS relies on token holders voting for a limited set of delegates who then produce blocks.
+
 
 
 ## Theoretical Part: Answers
 
-### Blockchain Basics
 
 **Define blockchain in your own words (100–150 words).**
 
@@ -264,7 +279,6 @@ A blockchain, in essence, is a continuously growing list of records, called bloc
 1.  **Supply Chain Management:** Blockchain can provide an immutable and transparent record of a product's journey from origin to consumer. Each step (e.g., sourcing, manufacturing, shipping, retail) can be recorded as a transaction on the blockchain. This enhances traceability, helps verify authenticity, reduces fraud (like counterfeiting), and improves efficiency by providing all stakeholders with a shared, trusted view of the supply chain.
 2.  **Digital Identity:** Blockchain can empower individuals with self-sovereign identity. Instead of relying on centralized authorities to manage and verify personal data, users can control their own identity information, storing attestations and credentials securely on a blockchain. They can then grant selective access to verifiers as needed, enhancing privacy, reducing identity theft, and simplifying verification processes across various services.
 
-### Block Anatomy
 
 **Draw a block showing: data, previous hash, timestamp, nonce, and Merkle root.**
 
@@ -276,7 +290,6 @@ A Merkle root is a single hash that summarizes all transactions within a block. 
 
 If someone wants to verify if T2 is part of the block and hasn't been tampered with, they don't need all transactions. They only need T2, H1, and H34 (the "Merkle path"). They can recalculate H12 by hashing H1 with hash(T2), and then hash the result with H34. If this final hash matches the block's stored Merkle root, T2's integrity and inclusion are verified efficiently without processing all block data.
 
-### Consensus Conceptualization
 
 **Explain in brief (4–5 sentences each):**
 
